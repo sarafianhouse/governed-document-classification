@@ -1,0 +1,942 @@
+{
+  "ruleVersion": "classification-rules-v2.2.2",
+  "engineVersion": "attribute-classifier-v2.2.2",
+  "confidenceThresholds": {
+    "high": 85,
+    "medium": 60,
+    "low": 0
+  },
+  "confidenceBands": {
+    "HIGH": "score >= 85",
+    "MEDIUM": "score >= 60 and score <= 84",
+    "LOW": "score < 60"
+  },
+  "rules": [
+    {
+      "ruleId": "INV-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Invoice",
+      "requiredSignals": [
+        "invoiceNumber",
+        "invoiceDate",
+        "amountDue"
+      ],
+      "minimumRequiredSignals": 2,
+      "supportingSignals": [
+        "invoiceHeading",
+        "billTo",
+        "invoiceTotal",
+        "subtotal",
+        "tax",
+        "paymentTerms",
+        "lineItemLanguage"
+      ],
+      "contradictorySignals": [
+        "quoteLanguage",
+        "supplementFactsLanguage"
+      ],
+      "minimumEvidence": 2,
+      "confidenceCalculation": {
+        "base": 25,
+        "requiredSignalWeight": 20,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 45,
+        "maximum": 100
+      },
+      "businessFunction": "Finance",
+      "routingRecommendation": "Finance Workflow",
+      "humanReviewConditions": [
+        "confidence below 85",
+        "quote language conflicts with invoice evidence",
+        "missing invoice-specific identifiers or amounts"
+      ],
+      "specificity": 90,
+      "pathSupportingSignals": [
+        "pathInvoiceFolder",
+        "pathFinanceFolder"
+      ]
+    },
+    {
+      "ruleId": "CON-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Contract",
+      "requiredSignals": [
+        "contractLanguage",
+        "partyLanguage"
+      ],
+      "minimumRequiredSignals": 2,
+      "supportingSignals": [
+        "contractNumber",
+        "effectiveDate",
+        "expirationDate",
+        "terminationDate",
+        "renewalDate",
+        "governingLaw",
+        "signatureLanguage"
+      ],
+      "contradictorySignals": [
+        "quoteLanguage"
+      ],
+      "minimumEvidence": 2,
+      "confidenceCalculation": {
+        "base": 25,
+        "requiredSignalWeight": 25,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 35,
+        "maximum": 100
+      },
+      "businessFunction": "Legal",
+      "routingRecommendation": "Contracts",
+      "humanReviewConditions": [
+        "confidence below 85",
+        "competing agreement or quote signals",
+        "missing named-party evidence"
+      ],
+      "specificity": 85,
+      "pathSupportingSignals": [
+        "pathContractFolder",
+        "pathAgreementFolder",
+        "pathLegalFolder"
+      ]
+    },
+    {
+      "ruleId": "AGR-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Agreement",
+      "requiredSignals": [
+        "agreementLanguage",
+        "partyLanguage"
+      ],
+      "minimumRequiredSignals": 2,
+      "supportingSignals": [
+        "contractNumber",
+        "effectiveDate",
+        "expirationDate",
+        "terminationDate",
+        "renewalDate",
+        "governingLaw",
+        "signatureLanguage"
+      ],
+      "contradictorySignals": [
+        "quoteLanguage"
+      ],
+      "minimumEvidence": 2,
+      "confidenceCalculation": {
+        "base": 25,
+        "requiredSignalWeight": 25,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 35,
+        "maximum": 100
+      },
+      "businessFunction": "Legal",
+      "routingRecommendation": "Contracts",
+      "humanReviewConditions": [
+        "confidence below 85",
+        "competing contract or quote signals",
+        "missing named-party evidence"
+      ],
+      "specificity": 85,
+      "pathSupportingSignals": [
+        "pathAgreementFolder",
+        "pathContractFolder",
+        "pathLegalFolder"
+      ]
+    },
+    {
+      "ruleId": "PO-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Purchase Order",
+      "requiredSignals": [
+        "purchaseOrderNumber",
+        "purchaseOrderLanguage"
+      ],
+      "minimumRequiredSignals": 2,
+      "supportingSignals": [
+        "lineItemLanguage",
+        "billTo",
+        "subtotal",
+        "tax",
+        "invoiceTotal"
+      ],
+      "contradictorySignals": [
+        "quoteLanguage",
+        "supplementFactsLanguage"
+      ],
+      "minimumEvidence": 2,
+      "confidenceCalculation": {
+        "base": 25,
+        "requiredSignalWeight": 25,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 35,
+        "maximum": 100
+      },
+      "businessFunction": "Procurement",
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85",
+        "quote language conflicts with order evidence"
+      ],
+      "specificity": 90,
+      "pathSupportingSignals": [
+        "pathPurchaseOrderFolder"
+      ]
+    },
+    {
+      "ruleId": "QUO-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Quote",
+      "requiredSignals": [
+        "quoteLanguage"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [
+        "lineItemLanguage",
+        "invoiceTotal",
+        "paymentTerms"
+      ],
+      "contradictorySignals": [
+        "invoiceNumber",
+        "amountDue",
+        "supplementFactsLanguage"
+      ],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 55,
+        "requiredSignalWeight": 15,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 20,
+        "maximum": 100
+      },
+      "businessFunction": "Sales",
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85",
+        "invoice-specific identifiers conflict with quote language"
+      ],
+      "specificity": 80,
+      "pathSupportingSignals": [
+        "pathQuoteFolder"
+      ]
+    },
+    {
+      "ruleId": "REC-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Receipt",
+      "requiredSignals": [
+        "receiptLanguage"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [
+        "subtotal",
+        "tax",
+        "invoiceTotal",
+        "amountDue"
+      ],
+      "contradictorySignals": [
+        "supplementFactsLanguage"
+      ],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 60,
+        "requiredSignalWeight": 20,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 30,
+        "maximum": 100
+      },
+      "businessFunction": "Finance",
+      "routingRecommendation": "Finance Workflow",
+      "humanReviewConditions": [
+        "confidence below 85"
+      ],
+      "specificity": 80,
+      "pathSupportingSignals": [
+        "pathReceiptFolder",
+        "pathFinanceFolder"
+      ]
+    },
+    {
+      "ruleId": "RPT-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Report",
+      "requiredSignals": [
+        "reportLanguage"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [
+        "financialLanguage",
+        "lineItemLanguage"
+      ],
+      "contradictorySignals": [
+        "invoiceNumber",
+        "purchaseOrderNumber"
+      ],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 55,
+        "requiredSignalWeight": 15,
+        "supportingSignalWeight": 8,
+        "contradictorySignalPenalty": 20,
+        "maximum": 100
+      },
+      "businessFunction": null,
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85",
+        "financial transactional evidence conflicts"
+      ],
+      "specificity": 40,
+      "pathSupportingSignals": [
+        "pathReportFolder"
+      ]
+    },
+    {
+      "ruleId": "COR-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Correspondence",
+      "requiredSignals": [
+        "correspondenceLanguage"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [
+        "invoiceNumber",
+        "contractNumber"
+      ],
+      "contradictorySignals": [],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 55,
+        "requiredSignalWeight": 15,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 0,
+        "maximum": 100
+      },
+      "businessFunction": null,
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85"
+      ],
+      "specificity": 30,
+      "pathSupportingSignals": [
+        "pathCorrespondenceFolder"
+      ]
+    },
+    {
+      "ruleId": "POL-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Policy",
+      "requiredSignals": [
+        "policyLanguage"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [
+        "procedureLanguage"
+      ],
+      "contradictorySignals": [],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 60,
+        "requiredSignalWeight": 20,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 0,
+        "maximum": 100
+      },
+      "businessFunction": "Administrative",
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85"
+      ],
+      "specificity": 60,
+      "pathSupportingSignals": [
+        "pathPolicyFolder"
+      ]
+    },
+    {
+      "ruleId": "PRO-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Procedure",
+      "requiredSignals": [
+        "procedureLanguage"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [
+        "policyLanguage"
+      ],
+      "contradictorySignals": [],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 60,
+        "requiredSignalWeight": 20,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 0,
+        "maximum": 100
+      },
+      "businessFunction": "Operations",
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85"
+      ],
+      "specificity": 60,
+      "pathSupportingSignals": [
+        "pathProcedureFolder"
+      ]
+    },
+    {
+      "ruleId": "MKT-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Marketing Material",
+      "requiredSignals": [
+        "marketingLanguage"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [
+        "quoteLanguage"
+      ],
+      "contradictorySignals": [
+        "contractLanguage"
+      ],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 55,
+        "requiredSignalWeight": 15,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 25,
+        "maximum": 100
+      },
+      "businessFunction": "Marketing",
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85",
+        "contract evidence conflicts"
+      ],
+      "specificity": 50,
+      "pathSupportingSignals": [
+        "pathMarketingFolder"
+      ]
+    },
+    {
+      "ruleId": "FIN-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Financial Document",
+      "requiredSignals": [
+        "financialLanguage"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [
+        "subtotal",
+        "tax",
+        "invoiceTotal"
+      ],
+      "contradictorySignals": [
+        "invoiceNumber"
+      ],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 55,
+        "requiredSignalWeight": 15,
+        "supportingSignalWeight": 8,
+        "contradictorySignalPenalty": 20,
+        "maximum": 100
+      },
+      "businessFunction": "Finance",
+      "routingRecommendation": "Finance Workflow",
+      "humanReviewConditions": [
+        "confidence below 85",
+        "invoice evidence suggests a more specific class"
+      ],
+      "specificity": 55,
+      "pathSupportingSignals": [
+        "pathFinanceFolder"
+      ]
+    },
+    {
+      "ruleId": "TEC-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Technical Document",
+      "requiredSignals": [
+        "technicalLanguage"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [],
+      "contradictorySignals": [],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 60,
+        "requiredSignalWeight": 20,
+        "supportingSignalWeight": 0,
+        "contradictorySignalPenalty": 0,
+        "maximum": 100
+      },
+      "businessFunction": "IT",
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85"
+      ],
+      "specificity": 55
+    },
+    {
+      "ruleId": "PRS-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Presentation",
+      "requiredSignals": [
+        "presentationStructure"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [],
+      "contradictorySignals": [],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 70,
+        "requiredSignalWeight": 15,
+        "supportingSignalWeight": 0,
+        "contradictorySignalPenalty": 0,
+        "maximum": 100
+      },
+      "businessFunction": null,
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85",
+        "embedded images were skipped or unreadable"
+      ],
+      "specificity": 10,
+      "pathSupportingSignals": [
+        "pathPresentationFolder"
+      ]
+    },
+    {
+      "ruleId": "SHT-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Spreadsheet",
+      "requiredSignals": [
+        "spreadsheetStructure"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [],
+      "contradictorySignals": [],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 70,
+        "requiredSignalWeight": 15,
+        "supportingSignalWeight": 0,
+        "contradictorySignalPenalty": 0,
+        "maximum": 100
+      },
+      "businessFunction": null,
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85",
+        "spreadsheet contains competing transactional evidence"
+      ],
+      "specificity": 10
+    },
+    {
+      "ruleId": "PRD-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Product Specification",
+      "requiredSignals": [
+        "supplementFactsLanguage",
+        "productSpecFilename"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [
+        "formulaLanguage",
+        "ingredientLanguage",
+        "productIdentifier"
+      ],
+      "contradictorySignals": [
+        "invoiceNumber",
+        "amountDue"
+      ],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 60,
+        "requiredSignalWeight": 15,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 25,
+        "maximum": 100
+      },
+      "businessFunction": "Product Development",
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85"
+      ],
+      "specificity": 80,
+      "pathSupportingSignals": [
+        "pathSpecFolder",
+        "pathProductFolder"
+      ]
+    },
+    {
+      "ruleId": "SEL-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Sell Sheet",
+      "requiredSignals": [
+        "sellSheetLanguage"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [
+        "retailerLanguage",
+        "productIdentifier",
+        "marketingLanguage"
+      ],
+      "contradictorySignals": [
+        "contractLanguage"
+      ],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 55,
+        "requiredSignalWeight": 15,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 25,
+        "maximum": 100
+      },
+      "businessFunction": "Sales",
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85"
+      ],
+      "specificity": 70,
+      "pathSupportingSignals": [
+        "pathSellSheetFolder",
+        "pathRetailer"
+      ]
+    },
+    {
+      "ruleId": "RET-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Retail Presentation",
+      "requiredSignals": [
+        "retailerLanguage"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [
+        "presentationStructure",
+        "marketingLanguage",
+        "productIdentifier"
+      ],
+      "contradictorySignals": [],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 50,
+        "requiredSignalWeight": 10,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 0,
+        "maximum": 100
+      },
+      "businessFunction": "Sales",
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85"
+      ],
+      "specificity": 65,
+      "pathSupportingSignals": [
+        "pathRetailer",
+        "pathPresentationFolder"
+      ]
+    },
+    {
+      "ruleId": "LTR-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Correspondence",
+      "requiredSignals": [
+        "letterLanguage"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [
+        "retailerLanguage"
+      ],
+      "contradictorySignals": [],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 55,
+        "requiredSignalWeight": 15,
+        "supportingSignalWeight": 5,
+        "contradictorySignalPenalty": 0,
+        "maximum": 100
+      },
+      "businessFunction": null,
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85"
+      ],
+      "specificity": 60,
+      "pathSupportingSignals": [
+        "pathCorrespondenceFolder"
+      ]
+    },
+    {
+      "ruleId": "MED-001",
+      "ruleVersion": "1.0",
+      "targetClass": "Media Asset",
+      "requiredSignals": [
+        "mediaFileType"
+      ],
+      "minimumRequiredSignals": 1,
+      "supportingSignals": [],
+      "contradictorySignals": [],
+      "minimumEvidence": 1,
+      "confidenceCalculation": {
+        "base": 60,
+        "requiredSignalWeight": 10,
+        "supportingSignalWeight": 0,
+        "contradictorySignalPenalty": 0,
+        "maximum": 100
+      },
+      "businessFunction": "Marketing",
+      "routingRecommendation": "Documents",
+      "humanReviewConditions": [
+        "confidence below 85",
+        "media content not text-verified"
+      ],
+      "specificity": 20,
+      "pathSupportingSignals": [
+        "pathMediaFolder"
+      ]
+    }
+  ],
+  "routingPolicy": {
+    "mode": "recommendation-only",
+    "physicalMovementEnabled": false,
+    "defaultDestination": "Intake / Exception Review",
+    "highConfidenceEligible": false,
+    "humanApprovalRequired": true
+  },
+  "sensitivityPolicy": {
+    "automatedChangesAllowed": false,
+    "pilotValue": "General",
+    "pilotSource": "Human Reviewed"
+  },
+  "competingRulePolicy": {
+    "penalty": 15,
+    "window": 10,
+    "appliesOnlyToConflictingClasses": true,
+    "compatibleClassGroups": [
+      [
+        "Marketing Material",
+        "Report",
+        "Presentation",
+        "Retail Presentation",
+        "Sell Sheet"
+      ],
+      [
+        "Product Specification",
+        "Marketing Material",
+        "Sell Sheet"
+      ],
+      [
+        "Quote",
+        "Correspondence"
+      ],
+      [
+        "Agreement",
+        "Contract"
+      ],
+      [
+        "Policy",
+        "Procedure"
+      ],
+      [
+        "Sell Sheet",
+        "Retail Presentation",
+        "Marketing Material",
+        "Report"
+      ]
+    ],
+    "tieBreak": "specificity, then ruleId"
+  },
+  "legacyFormatFallback": {
+    "ppt": "Presentation",
+    "xls": "Spreadsheet",
+    "score": 60,
+    "note": "Unsupported legacy or size-skipped Office file; classified by file type only, always human review",
+    "includeSizeSkippedOffice": true
+  },
+  "formatRules": {
+    "ruleIds": [
+      "PRS-001",
+      "SHT-001",
+      "MED-001"
+    ],
+    "note": "File-format classes take precedence as ContentClass; the best non-format rule is reported separately as ContentTopic and never penalizes the format class."
+  },
+  "pathEvidence": {
+    "enabled": true,
+    "note": "Folder names and file names are a second, weaker evidence source. Path signals only add supporting points to a rule whose text evidence already matched; they never satisfy requiredSignals, never change which rule wins, never create a competing-rule penalty, and (by default) never lift a document from MEDIUM to HIGH. For files with no usable text match, a folder class hint can suggest a class at MEDIUM at most, always with human review. Tags (retailers, products, brands, partners, year, lifecycle) are search metadata and never change class, score or review status. Vocabulary is configuration: extend it from your own folder structure.",
+    "supportingSignalWeight": 5,
+    "maximumPathBonus": 10,
+    "pathBonusCanCrossHighThreshold": false,
+    "pathOnlyFallback": {
+      "score": 65,
+      "agreeingTextBonus": 5,
+      "maximumScore": 75
+    },
+    "classHintSignalsUseFoldersOnly": true,
+    "noiseSegments": [
+      "presentation storage",
+      "desktop",
+      "documents",
+      "my documents",
+      "new folder( \\d+)?",
+      "misc(ellaneous)?",
+      "stuff",
+      "shared( with me)?",
+      "downloads?",
+      "temp",
+      "tmp",
+      "untitled( folder)?",
+      "my drive",
+      "onedrive",
+      "root",
+      "general",
+      "files",
+      "folder",
+      "copy",
+      "\\d{1,3}",
+      "system volume information",
+      "_?restore(?: [0-9a-f ]+)?",
+      "favorites",
+      "move(?: \\d+)*",
+      "screenshots",
+      "previews"
+    ],
+    "folderSignals": {
+      "pathInvoiceFolder": {
+        "pattern": "\\binvoices?\\b|\\bbilling\\b|\\bbills\\b|\\bpayables?\\b",
+        "classHint": "Invoice",
+        "businessFunction": "Finance"
+      },
+      "pathPurchaseOrderFolder": {
+        "pattern": "\\bpurchase orders?\\b|\\bpos\\b",
+        "classHint": "Purchase Order",
+        "businessFunction": "Finance"
+      },
+      "pathQuoteFolder": {
+        "pattern": "\\bquotes?\\b|\\bquotations?\\b",
+        "classHint": "Quote"
+      },
+      "pathReceiptFolder": {
+        "pattern": "\\breceipts?\\b",
+        "classHint": "Receipt",
+        "businessFunction": "Finance"
+      },
+      "pathContractFolder": {
+        "pattern": "\\bcontracts?\\b",
+        "classHint": "Contract",
+        "businessFunction": "Legal"
+      },
+      "pathAgreementFolder": {
+        "pattern": "\\bagreements?\\b|\\bndas?\\b",
+        "classHint": "Agreement",
+        "businessFunction": "Legal"
+      },
+      "pathLegalFolder": {
+        "pattern": "\\blegal\\b|\\bcompliance\\b",
+        "businessFunction": "Legal"
+      },
+      "pathReportFolder": {
+        "pattern": "\\breports?\\b|\\breporting\\b|\\baudits?\\b",
+        "classHint": "Report"
+      },
+      "pathPolicyFolder": {
+        "pattern": "\\bpolic(?:y|ies)\\b",
+        "classHint": "Policy"
+      },
+      "pathProcedureFolder": {
+        "pattern": "\\bprocedures?\\b|\\bsops?\\b",
+        "classHint": "Procedure"
+      },
+      "pathMarketingFolder": {
+        "pattern": "\\bmarketing\\b|\\bmarkting\\b|\\badvertising\\b|\\bprint ads?\\b|\\bads\\b|\\bpress\\b|\\bpr\\b|\\bsocial media\\b|\\btrade ?shows?\\b|\\bdisplays?\\b|\\bpromotions?\\b|\\bsummits?\\b",
+        "classHint": "Marketing Material",
+        "businessFunction": "Marketing"
+      },
+      "pathSellSheetFolder": {
+        "pattern": "\\bsell ?sheets?\\b",
+        "classHint": "Sell Sheet",
+        "businessFunction": "Sales"
+      },
+      "pathSpecFolder": {
+        "pattern": "\\bsup(?:plement)? facts\\b|\\bspecs?\\b|\\bspecifications?\\b|\\bformulas?\\b|\\blabels?\\b|\\bcoas?\\b",
+        "classHint": "Product Specification",
+        "businessFunction": "Product Development"
+      },
+      "pathFinanceFolder": {
+        "pattern": "\\bfinance\\b|\\baccounting\\b|\\btax(?:es)?\\b|\\bpayroll\\b|\\bbookkeeping\\b|\\bquickbooks\\b",
+        "businessFunction": "Finance"
+      },
+      "pathPresentationFolder": {
+        "pattern": "\\bpresentations?\\b|\\bpowerpoints?\\b|\\bdecks?\\b|\\bmeetings?\\b|\\bline reviews?\\b"
+      },
+      "pathMediaFolder": {
+        "pattern": "\\bimages?\\b|\\bphotos?\\b|\\bpictures?\\b|\\bvideos?\\b|\\bmedia\\b|\\bgraphics\\b|\\bartwork\\b|\\bcamera uploads\\b|\\bscreenshots?\\b|\\bhigh res\\b|\\balbums?\\b|\\bproduct shots?\\b"
+      },
+      "pathSalesFolder": {
+        "pattern": "\\baccounts?\\b|\\bbroker\\b|\\bsales\\b|\\bretail(?:ers?)?\\b|\\bcustomers?\\b|\\bstore shops?\\b",
+        "businessFunction": "Sales"
+      },
+      "pathCreativeFolder": {
+        "pattern": "\\bart ?department\\b|\\bart ?work\\b|\\bcreative\\b|\\bdesign\\b",
+        "businessFunction": "Marketing"
+      },
+      "pathProductFolder": {
+        "pattern": "\\bproduct development\\b|\\bnp dev\\b|\\bnew products?\\b|\\bproduct ?info(?:rmation)?\\b|\\bproducts\\b",
+        "businessFunction": "Product Development"
+      },
+      "pathQualityFolder": {
+        "pattern": "\\bquality\\b|\\bqa\\b|\\bqc\\b|\\bregulatory\\b|\\bsds\\b",
+        "businessFunction": "Operations"
+      },
+      "pathOperationsFolder": {
+        "pattern": "\\boperations\\b|\\blogistics\\b|\\bwarehouse\\b|\\binventory\\b",
+        "businessFunction": "Operations"
+      },
+      "pathProcurementFolder": {
+        "pattern": "\\bsuppliers?\\b|\\bsupply resources\\b|\\bvendors?\\b|\\bpurchasing\\b",
+        "businessFunction": "Procurement"
+      },
+      "pathPlanningFolder": {
+        "pattern": "\\bbusiness plan\\b|\\bbuiness plan\\b|\\bplan\\b|\\bbod\\b|\\bboard of directors\\b|\\bstrategy\\b",
+        "businessFunction": "Administrative"
+      },
+      "pathCorrespondenceFolder": {
+        "pattern": "\\bemails?\\b|\\bcorrespondence\\b|\\bletters\\b",
+        "classHint": "Correspondence"
+      }
+    },
+    "lifecycleSignals": {
+      "Draft": "\\bdrafts?\\b",
+      "Close-Out": "\\bclose ?outs?\\b",
+      "No Deal": "\\bno deal\\b",
+      "Sync Conflict Copy": "\\bselective sync conflict\\b|\\bconflicted copy\\b",
+      "Archive": "\\barchived?\\b|\\bold\\b|\\brecycled\\b|\\bpast years\\b",
+      "Final": "\\bfinal\\b",
+      "Personal Media": "\\bhalloween\\b|\\bchristmas\\b|\\bthanksgiving\\b|\\bbirthdays?\\b|\\bwedding\\b|\\bvacation\\b|\\bmemories\\b|\\bcamera uploads\\b|\\bmy pictures\\b"
+    },
+    "entities": {
+      "retailers": {
+        "Example Mart": "\\bexample ?mart\\b",
+        "Northwind Grocers": "\\bnorthwind\\b"
+      },
+      "products": {
+        "Daily Protein Shake": "\\bprotein shakes?\\b",
+        "Vitamin D3": "\\bvitamin d3?\\b"
+      },
+      "brands": {
+        "Contoso Nutrition": "\\bcontoso\\b",
+        "Fabrikam Wellness": "\\bfabrikam\\b"
+      },
+      "partners": {
+        "Tailspin Logistics": "\\btailspin\\b"
+      }
+    },
+    "periodYear": {
+      "minimum": 1995,
+      "maximum": 2100,
+      "ignoreParenthetical": "\\(.*?conflicted copy.*?\\)"
+    },
+    "pathCorroboration": {
+      "enabled": true,
+      "minimumTextScore": 75,
+      "note": "v2.2.2: a folder signal for the same rule may lift a text score of 75-84 to HIGH when the text has no contradictory evidence. The competing-rule penalty still applies afterwards, and extraction must still be SUCCESS for machine classification. Set enabled=false to restore v2.2.1 behaviour."
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "scanId": "sample-synthetic",
+  "results": [
+    {
+      "sourceItemId": "doc-001",
+      "filename": "INV-20418.pdf",
+      "sourcePath": "Finance/Invoices/2025/INV-20418.pdf",
+      "extractionStatus": "SUCCESS",
+      "contentHash": "a1",
+      "fullText": "INVOICE\nBill To: Contoso Nutrition\nInvoice Number: 20418\nInvoice Date: 2025-03-14\nQuantity  Unit Price\nSubtotal 4,200.00\nTax 294.00\nAmount Due 4,494.00\nPayment Terms: Net 30",
+      "attributes": {
+        "identifiers": {
+          "invoiceNumber": "20418"
+        },
+        "dates": {
+          "invoiceDate": "2025-03-14"
+        },
+        "financial": {
+          "amountDue": 4494.0,
+          "subtotal": 4200.0,
+          "tax": 294.0,
+          "total": 4494.0,
+          "paymentTerms": "Net 30"
+        }
+      }
+    },
+    {
+      "sourceItemId": "doc-002",
+      "filename": "Master Supply Agreement - Tailspin.docx",
+      "sourcePath": "Legal/Contracts/Tailspin/Master Supply Agreement - Tailspin.docx",
+      "extractionStatus": "SUCCESS",
+      "contentHash": "b2",
+      "fullText": "MASTER SUPPLY AGREEMENT\nThis Agreement is entered into between Contoso Nutrition and Tailspin Logistics (the parties).\nContract No. MSA-0099. Effective Date: January 1, 2025. Governing Law: State of Florida.\nSigned and executed by authorized representatives.",
+      "attributes": {
+        "identifiers": {
+          "contractNumber": "MSA-0099"
+        },
+        "dates": {
+          "effectiveDate": "2025-01-01"
+        }
+      }
+    },
+    {
+      "sourceItemId": "doc-003",
+      "filename": "Protein Shake Sell Sheet 2025.pdf",
+      "sourcePath": "Sales/Northwind/Sell Sheets/Protein Shake Sell Sheet 2025.pdf",
+      "extractionStatus": "SUCCESS",
+      "contentHash": "c3",
+      "fullText": "Daily Protein Shake - Sell Sheet\nSKU 10045  UPC 0 12345 67890 5\nCase pack: 12   Pallet: 80 cases\nSRP $29.99\nBrand: Contoso Nutrition. Product benefits for the health-conscious consumer.",
+      "attributes": {}
+    },
+    {
+      "sourceItemId": "doc-004",
+      "filename": "Q3 Line Review.pptx",
+      "sourcePath": "Sales/Example Mart/Presentations/Q3 Line Review.pptx",
+      "extractionStatus": "SUCCESS",
+      "contentHash": "d4",
+      "pages": [
+        {
+          "n": 1
+        },
+        {
+          "n": 2
+        },
+        {
+          "n": 3
+        },
+        {
+          "n": 4
+        }
+      ],
+      "fullText": "Example Mart Q3 line review\nBuyer meeting agenda\nPlanogram changes and sell-in plan\nBrand performance report",
+      "attributes": {}
+    },
+    {
+      "sourceItemId": "doc-005",
+      "filename": "Quote 7781.pdf",
+      "sourcePath": "Finance/Invoices/Quote 7781.pdf",
+      "extractionStatus": "SUCCESS",
+      "contentHash": "e5",
+      "fullText": "QUOTATION\nQuote #7781 valid 30 days\nInvoice Number to follow on acceptance\nInvoice Date: TBD\nQuantity  Unit Price\nSubtotal 1,150.00",
+      "attributes": {
+        "identifiers": {
+          "invoiceNumber": "7781"
+        },
+        "dates": {
+          "invoiceDate": "2025-05-02"
+        },
+        "financial": {
+          "subtotal": 1150.0
+        }
+      }
+    },
+    {
+      "sourceItemId": "doc-006",
+      "filename": "scan_0042.tif",
+      "sourcePath": "Finance/Receipts/scan_0042.tif",
+      "extractionStatus": "PARTIAL",
+      "contentHash": "f6",
+      "fullText": "",
+      "attributes": {}
+    },
+    {
+      "sourceItemId": "doc-007",
+      "filename": "INV-20418 (copy).pdf",
+      "sourcePath": "Shared/Downloads/INV-20418 (copy).pdf",
+      "extractionStatus": "SUCCESS",
+      "contentHash": "a1",
+      "fullText": "INVOICE\nBill To: Contoso Nutrition\nInvoice Number: 20418\nInvoice Date: 2025-03-14\nAmount Due 4,494.00",
+      "attributes": {
+        "identifiers": {
+          "invoiceNumber": "20418"
+        },
+        "dates": {
+          "invoiceDate": "2025-03-14"
+        },
+        "financial": {
+          "amountDue": 4494.0
+        }
+      }
+    },
+    {
+      "sourceItemId": "doc-008",
+      "filename": "Records Retention Policy.docx",
+      "sourcePath": "Operations/Policies/Records Retention Policy.docx",
+      "extractionStatus": "SUCCESS",
+      "contentHash": "h8",
+      "fullText": "Records Retention Policy\nThis policy defines how long business records are kept.\nProcedure: owners review records annually.",
+      "attributes": {}
+    }
+  ]
+}
